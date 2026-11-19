@@ -3,4 +3,6 @@ build/
 *.a
 .DS_Store
 output.png
+image.png
 cmake-build-*/
+_deps/

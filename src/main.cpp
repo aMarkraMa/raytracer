@@ -27,7 +27,7 @@ int main() {
     Image image = camera.render(scene, width, height);
 
     PngSaver saver;
-    const std::string outputPath = "output.png";
+    const std::string outputPath = "image.png";
     saver.save(image, outputPath);
 
     std::cout << "Wrote " << outputPath << " (" << width << "x" << height << ")\n";

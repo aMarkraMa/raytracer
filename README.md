@@ -1,36 +1,46 @@
 # Raytracer
 
-An individual C++ ray tracer project for the HETIC module *Veille, innovation et prospective* and the associated software engineering courses.
+An individual C++ ray tracer for the HETIC module *Veille, innovation et prospective* and the related software-engineering sessions.
 
-The project explores how to build rendering software that developers can understand, test, maintain and extend. The course uses a fictional film studio in 2035 as its client; market research describes products available when the sources were checked, not predictions about 2035.
+## Milestone m1
 
-## Documentation
+Hand-in tag: **`m1`**. At that tag the project includes:
 
-- [Discovery report — milestone m0](docs/discovery/discovery-report.md)
-- [M0 submission checklist and course requirements — 中文](docs/discovery/m0-checklist.zh.md)
-- [AGENTS.md](AGENTS.md) — build/test commands and rules for AI assistants (also via [CLAUDE.md](CLAUDE.md))
+- Working `Scene` render of a shaded sphere on a floor (`make run` → `image.png`)
+- Green tests (`make test`)
+- ADRs and domain model under `docs/`
 
-## Build, run, and test
+## Open in a Dev Container (Cursor / VS Code)
+
+1. Install Docker Desktop.
+2. Open this folder in Cursor.
+3. Run **Dev Containers: Reopen in Container**.
+4. In the container terminal:
+
+```bash
+make test
+make run
+```
+
+## Build, test, and run
+
+From the project root (host or container):
 
 ```bash
 make build
 make test
-make run    # writes output.png
+make run    # writes image.png
 make clean
 ```
 
-Equivalent CMake commands are listed in [AGENTS.md](AGENTS.md).
+## Documentation
 
-## Current status
-
-A minimal CPU path is in place: `Camera` rays, `Sphere::hit`, `Image` / `PngSaver` (LodePNG), and `src/main.cpp` writing `output.png`. Discovery-report desk research remains in `docs/discovery/`; the client interview section is still blank until real notes are available.
-
-The draft was prepared with AI assistance and references original sources. Before submission, the author should review the explanations, make them their own, and be able to explain them without notes, as required by the course.
+- [Domain model](docs/domain-model.md)
+- [Architecture decision records](docs/adr/README.md)
+- [AGENTS.md](AGENTS.md) — commands and rules for AI assistants
+- [Discovery report — m0](docs/discovery/discovery-report.md)
 
 ## Course
 
 - [Project brief](https://learn.glassworks.tech/raytracer/)
 - [Milestones](https://learn.glassworks.tech/raytracer/milestones/)
-- [Discovery report requirements](https://learn.glassworks.tech/raytracer/veille-perspective/discovery-report/)
-
-The evaluated M0 artifact is `docs/discovery/discovery-report.md` at the Git tag `m0`. Creating these local files does not submit the assignment.

@@ -1,0 +1,16 @@
+{
+  "name": "Raytracer",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
+      ]
+    }
+  },
+  "postCreateCommand": "cmake -S . -B build && cmake --build build",
+  "remoteUser": "vscode"
+}
