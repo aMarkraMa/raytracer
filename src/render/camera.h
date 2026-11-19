@@ -2,8 +2,8 @@
 
 #include "colour/colour.h"
 #include "geometry/ray.h"
-#include "light/light.h"
 #include "math/vector.h"
+#include "render/image.h"
 #include "scene/scene.h"
 
 class Camera {
@@ -22,6 +22,7 @@ public:
     ) const;
 
     Colour trace(const Ray& ray, const Scene& scene) const;
+    Image render(const Scene& scene, int width, int height) const;
 
 private:
     Vector _position;

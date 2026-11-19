@@ -1,12 +1,10 @@
 #pragma once
 
 #include "colour/colour.h"
-
-struct HitInfo;
-class Light;
+#include "math/vector.h"
 
 class Material {
 public:
     virtual ~Material() = default;
-    virtual Colour shade(const HitInfo& hit, const Light& light) = 0;
+    virtual Colour shade(const Vector& normal, const Vector& toLight) = 0;
 };

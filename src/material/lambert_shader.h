@@ -1,13 +1,14 @@
 #pragma once
 
-#include "material/material.h"
 #include "colour/colour.h"
+#include "material/material.h"
+#include "math/vector.h"
 
 class LambertShader : public Material {
-private:
-    Colour _colour;
-
 public:
     LambertShader(const Colour& colour);
-    Colour shade(const HitInfo& hit, const Light& light) override;
+    Colour shade(const Vector& normal, const Vector& toLight) override;
+
+private:
+    Colour _colour;
 };

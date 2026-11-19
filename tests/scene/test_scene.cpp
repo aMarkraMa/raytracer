@@ -7,7 +7,6 @@
 #include "geometry/plane.h"
 #include "geometry/ray.h"
 #include "geometry/sphere.h"
-#include "light/light.h"
 #include "material/flat_shader.h"
 #include "math/vector.h"
 #include "scene/scene.h"
@@ -33,8 +32,7 @@ void expect_true(const char* name, bool value, int& failures) {
 
 Colour material_colour(const HitInfo& hit) {
     // FlatShader::shade ignores lighting and returns its stored colour.
-    Light unused(Vector(0.0, 0.0, 0.0), Colour(1.0, 1.0, 1.0));
-    return hit.material->shade(hit, unused);
+    return hit.material->shade(hit.normal, Vector(0.0, 0.0, -1.0));
 }
 
 }  // namespace

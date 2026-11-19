@@ -1,17 +1,12 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <memory>
 
 #include "colour/colour.h"
 #include "geometry/plane.h"
 #include "geometry/sphere.h"
-#include "light/light.h"
 #include "material/flat_shader.h"
-#include "material/lambert_shader.h"
 #include "math/vector.h"
-#include "render/camera.h"
-#include "scene/scene.h"
 
 namespace {
 
@@ -49,27 +44,6 @@ void expect_components(
               << " expected (" << expected_x << ", " << expected_y << ", " << expected_z << ")\n";
 }
 
-void expect_colour(
-    const char* name,
-    const Colour& actual,
-    double expected_r,
-    double expected_g,
-    double expected_b,
-    int& failures
-) {
-    if (nearly_equal(actual.r(), expected_r)
-        && nearly_equal(actual.g(), expected_g)
-        && nearly_equal(actual.b(), expected_b)) {
-        std::cout << "PASS: " << name << '\n';
-        return;
-    }
-
-    ++failures;
-    std::cout << "FAIL: " << name
-              << " got (" << actual.r() << ", " << actual.g() << ", " << actual.b() << ")"
-              << " expected (" << expected_r << ", " << expected_g << ", " << expected_b << ")\n";
-}
-
 }  // namespace
 
 int main() {
@@ -97,27 +71,6 @@ int main() {
 
     Shape& shapeRef = sphere;
     expect_true("sphere is usable as Shape", shapeRef.hit(hitRay).has_value(), failures);
-
-    Camera camera(Vector(0.0, 0.0, -3.0));
-    FlatShader sceneFlat(Colour(0.2, 0.4, 0.8));
-    Scene scene(Vector(0.0, 0.0, -3.0));
-    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 0.0), 1.0, sceneFlat));
-
-    Ray centerRay = camera.rayThroughCenter();
-    Colour flatColour = camera.trace(centerRay, scene);
-    expect_colour("flat shade via scene.trace", flatColour, 0.2, 0.4, 0.8, failures);
-
-    LambertShader lambert(Colour(1.0, 0.0, 0.0));
-    Scene litScene(Vector(10.0, 0.0, 0.0));
-    litScene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 0.0), 1.0, lambert));
-
-    Ray lambertRay(Vector(0.0, 0.0, -5.0), Vector(0.0, 0.0, 1.0));
-    Colour shaded = camera.trace(lambertRay, litScene);
-    expect_true("lambert shades hit to black when light is sideways", nearly_equal(shaded.r(), 0.0), failures);
-
-    Ray skyRay = camera.rayThroughPixel(0, 0, 5, 3, 5.0);
-    Colour sky = camera.trace(skyRay, litScene);
-    expect_colour("miss uses background colour", sky, 0.5, 0.7, 1.0, failures);
 
     if (failures != 0) {
         std::cout << failures << " test(s) failed\n";

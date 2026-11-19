@@ -2,8 +2,6 @@
 
 #include <optional>
 
-#include "light/light.h"
-
 Camera::Camera(const Vector& position) : _position(position) {}
 
 const Vector& Camera::position() const {
@@ -30,10 +28,31 @@ Ray Camera::rayThroughPixel(
 Colour Camera::trace(const Ray& ray, const Scene& scene) const {
     std::optional<HitInfo> hit = scene.nearestHit(ray);
     if (!hit.has_value()) {
-        return Colour(0.5, 0.7, 1.0);
+        return Colour(0.0, 0.0, 0.0);
+    }
+    return hit->material->shade(hit->normal, scene.toLight());
+}
+
+Image Camera::render(const Scene& scene, int width, int height) const {
+    Image image(static_cast<unsigned int>(width), static_cast<unsigned int>(height));
+    const double screenWidth = 2.0;
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            Ray ray = rayThroughPixel(
+                static_cast<unsigned int>(x),
+                static_cast<unsigned int>(y),
+                static_cast<unsigned int>(width),
+                static_cast<unsigned int>(height),
+                screenWidth
+            );
+            image.setPixel(
+                static_cast<unsigned int>(x),
+                static_cast<unsigned int>(y),
+                trace(ray, scene)
+            );
+        }
     }
 
-    // Temporary: shade still needs a Light; Scene currently only stores toLight.
-    Light light(hit->point + scene.toLight(), Colour(1.0, 1.0, 1.0));
-    return hit->material->shade(*hit, light);
+    return image;
 }
