@@ -1,18 +1,25 @@
 #pragma once
+
+#include <optional>
+
+#include "geometry/hit_info.h"
+#include "geometry/ray.h"
+#include "geometry/shape.h"
+#include "material/material.h"
 #include "math/vector.h"
-#include "ray/ray.h"
 
-class Sphere {
-private:
-    Vector _center;
-    double _radius;
-
+class Sphere : public Shape {
 public:
-    Sphere(const Vector& center, double radius);
+    Sphere(const Vector& center, double radius, Material& material);
 
     const Vector& center() const;
     double radius() const;
+    Material& material() const;
 
-    // Est-ce que ce rayon me touche? 
-    bool hit(Ray& ray);
+    std::optional<HitInfo> hit(const Ray& ray) const override;
+
+private:
+    Vector _center;
+    double _radius;
+    Material& _material;
 };

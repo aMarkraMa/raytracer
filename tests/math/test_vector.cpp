@@ -48,6 +48,9 @@ int main() {
     Vector right_scaled = Vector(1.0, -2.0, 3.0) * 2.0;
     expect_components("right scalar multiply v * 2", right_scaled, 2.0, -4.0, 6.0, failures);
 
+    Vector normalised = Vector(3.0, 4.0, 0.0).normalised();
+    expect_components("normalised (3,4,0)", normalised, 3.0 / 5.0, 4.0 / 5.0, 0.0, failures);
+
     if (failures != 0) {
         std::cout << failures << " test(s) failed\n";
         return EXIT_FAILURE;

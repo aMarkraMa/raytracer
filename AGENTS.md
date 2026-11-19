@@ -4,17 +4,29 @@ Short rules for AI assistants working in this repository.
 
 ## Build, run, and test
 
-There is no root `Makefile` shortcut yet. Use CMake and CTest from the project root:
+From the project root, prefer the Makefile shortcuts:
+
+```bash
+make build
+make run
+make test
+make clean
+```
+
+These wrap the underlying CMake commands:
 
 ```bash
 cmake -S . -B build
 cmake --build build
+./build/raytracer
 ctest --test-dir build --output-on-failure
+rm -rf build
 ```
 
-- **Build:** `cmake -S . -B build` then `cmake --build build`
-- **Test:** `ctest --test-dir build --output-on-failure`
-- **Run:** no application executable yet; the library target is `raytracer`, and the current executable is the test binary `build/test_vector`
+- **Build:** `make build`
+- **Run:** `make run` (writes `output.png` in the project root)
+- **Test:** `make test`
+- **Clean:** `make clean` (removes only the local `build/` directory)
 
 ## Architecture decisions
 

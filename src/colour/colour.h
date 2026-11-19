@@ -12,4 +12,6 @@ public:
     double r() const;
     double g() const;
     double b() const;
+
+    Colour operator*(double scalar) const;
 };
